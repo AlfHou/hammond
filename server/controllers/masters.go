@@ -19,6 +19,7 @@ func RegisterAnonMasterConroller(router *gin.RouterGroup) {
 			"distanceUnits": db.DistanceUnitDetails,
 			"roles":         db.RoleDetails,
 			"currencies":    models.GetCurrencyMasterList(),
+			"languages": 	models.GetLanguageMastersList(),
 		})
 	})
 }
