@@ -27,6 +27,10 @@ var migrations = []localMigration{
 		Name:  "2022_03_08_13_16_AddVIN",
 		Query: "ALTER TABLE vehicles ADD COLUMN vin text",
 	},
+	{
+		Name:  "2023_02_26_13_42_AddLanguage",
+		Query: "ALTER TABLE users ADD COLUMN language text default 'English'",
+	},
 }
 
 func RunMigrations() {
