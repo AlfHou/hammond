@@ -19,6 +19,7 @@ type User struct {
 	Name         string       `json:"name"`
 	Vehicles     []Vehicle    `gorm:"many2many:user_vehicles;" json:"vehicles"`
 	IsDisabled   bool         `json:"isDisabled"`
+	Language     string       `json:"language"`
 }
 
 func (b *User) MarshalJSON() ([]byte, error) {

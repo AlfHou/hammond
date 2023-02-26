@@ -22,6 +22,7 @@ export default {
   data: function() {
     return {
       settingsModel: {
+        language: this.me.language,
         currency: this.me.currency,
         distanceUnit: this.me.distanceUnit,
         dateFormat: this.me.dateFormat,
@@ -36,7 +37,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('vehicles', ['currencyMasters', 'distanceUnitMasters']),
+    ...mapState('masters', ['currencyMasters', 'languageMasters', 'distanceUnitMasters']),
     passwordValid() {
       if (this.changePassModel.new === '' || this.changePassModel.renew === '') {
         return true
@@ -56,6 +57,15 @@ export default {
             .toLowerCase()
             .indexOf(this.settingsModel.currency.toLowerCase()) >= 0
         )
+      })
+    },
+    filteredLanguageMasters() {
+      return this.languageMasters.filter((option) => {
+        return (
+          option.nameNative
+            .toString()
+            .toLowerCase()
+            .indexOf(this.settingsModel.language.toLowerCase()) >= 0)
       })
     },
   },
@@ -126,6 +136,9 @@ export default {
     formatCurrency(option) {
       return `${option.namePlural} (${option.code})`
     },
+    formatLanguage(option) {
+      return `${option.nameNative} ${option.emoji}`
+    },
   },
 }
 </script>
@@ -136,9 +149,17 @@ export default {
     <div class="columns"
       ><div class="column">
         <form class="box " @submit.prevent="saveSettings">
-          <h1 class="subtitle">
-            {{ $t('settingdesc') }}
-          </h1>
+          <b-field :label="$t('language')">
+          <b-autocomplete 
+            v-model="settingsModel.language"
+            :custom-formatter="formatLanguage"
+            :data="filteredLanguageMasters"
+            :placeholder="$t('language')"
+            :keep-first="true"
+            :open-on-focus="true"
+            required
+          />
+            </b-field>
           <b-field :label="$t('currency')">
             <b-autocomplete
               v-model="settingsModel.currency"
