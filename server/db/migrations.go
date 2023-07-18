@@ -29,7 +29,7 @@ var migrations = []localMigration{
 	},
 	{
 		Name:  "2023_02_26_13_42_AddLanguage",
-		Query: "ALTER TABLE users ADD COLUMN language text default 'English 🇬🇧'",
+		Query: "ALTER TABLE users ADD COLUMN language text default 'en'",
 	},
 }
 

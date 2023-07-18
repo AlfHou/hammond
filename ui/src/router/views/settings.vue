@@ -28,6 +28,7 @@ export default {
         dateFormat: this.me.dateFormat,
       },
       tryingToSave: false,
+      selectedLanguage: "",
       changePassModel: {
         old: '',
         new: '',
@@ -59,15 +60,9 @@ export default {
         )
       })
     },
-    filteredLanguageMasters() {
-      return this.languageMasters.filter((option) => {
-        return (
-          option.nameNative
-            .toString()
-            .toLowerCase()
-            .indexOf(this.settingsModel.language.toLowerCase()) >= 0)
-      })
-    },
+  },
+  mounted() {
+    this.selectedLanguage = this.formatLanguage(this.languageMasters.filter(x => x.shorthand === this.me.language)[0])
   },
   methods: {
     changePassword() {
@@ -120,6 +115,7 @@ export default {
             type: 'is-success',
             duration: 3000,
           })
+          this.$i18n.locale = this.settingsModel.language
         })
         .catch((ex) => {
           this.$buefy.toast.open({
@@ -151,13 +147,14 @@ export default {
         <form class="box " @submit.prevent="saveSettings">
           <b-field :label="$t('language')">
           <b-autocomplete 
-            v-model="settingsModel.language"
-            :custom-formatter="formatLanguage"
-            :data="filteredLanguageMasters"
+            v-model="selectedLanguage"
             :placeholder="$t('language')"
             :keep-first="true"
+            :custom-formatter="formatLanguage"
+            :data="languageMasters"
             :open-on-focus="true"
             required
+            @select="(option) => (settingsModel.language = option.shorthand)"
           />
             </b-field>
           <b-field :label="$t('currency')">
