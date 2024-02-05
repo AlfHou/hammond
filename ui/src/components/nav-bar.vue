@@ -1,6 +1,6 @@
 <script>
 import { authComputed } from '@state/helpers'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import NavBarRoutes from './nav-bar-routes.vue'
 
 export default {
@@ -52,10 +52,19 @@ export default {
   },
   computed: {
     ...authComputed,
+    ...mapState('users', ['me']),
     ...mapGetters('vehicles', ['unprocessedQuickEntries']),
     isAdmin() {
       return this.loggedIn && this.currentUser.role === 'ADMIN'
     },
+    currencyOutdated() {
+      if (this.me !== null) {
+        if (this.me.currency.indexOf('(') !== -1) {
+          return true
+        }
+        }
+      return false
+    }
   },
 }
 </script>
@@ -77,5 +86,14 @@ export default {
         </b-navbar-dropdown>
       </template>
     </b-navbar>
+    <b-notification
+            v-model="currencyOutdated"
+            type="is-danger"
+            has-icon
+            aria-close-label="Close notification"
+            role="alert"
+            :closable=false>
+            Please select your currency again in <router-link to="/settings">settings</router-link> and then save.
+        </b-notification>
   </div>
 </template>

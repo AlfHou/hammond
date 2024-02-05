@@ -123,9 +123,6 @@ export default {
           this.tryingToSave = false
         })
     },
-    formatCurrency(option) {
-      return `${option.namePlural} (${option.code})`
-    },
   },
 }
 </script>
@@ -142,14 +139,18 @@ export default {
           <b-field :label="$t('currency')">
             <b-autocomplete
               v-model="settingsModel.currency"
-              :custom-formatter="formatCurrency"
               :placeholder="$t('currency')"
               :data="filteredCurrencyMasters"
+              field="code"
               :keep-first="true"
               :open-on-focus="true"
               required
               @select="(option) => (selected = option)"
-            ></b-autocomplete>
+            >
+            <template slot-scope="props">
+              <span>{{ props.option.namePlural }} ({{ props.option.code }})</span>
+            </template>
+          </b-autocomplete>
           </b-field>
           <b-field :label="$t('distanceunit')">
             <b-select v-model.number="settingsModel.distanceUnit" placeholder="Distance Unit" required expanded>
