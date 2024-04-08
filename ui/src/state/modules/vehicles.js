@@ -4,11 +4,6 @@ import { filter } from 'lodash'
 import parseISO from 'date-fns/parseISO'
 export const state = {
   vehicles: [],
-  roleMasters: [],
-  fuelUnitMasters: [],
-  distanceUnitMasters: [],
-  currencyMasters: [],
-  fuelTypeMasters: [],
   quickEntries: [],
   vehicleStats: new Map(),
 }
@@ -29,23 +24,8 @@ export const mutations = {
   CACHE_VEHICLE_STATS(state, stats) {
     state.vehicleStats.set(stats.vehicleId, stats)
   },
-  CACHE_FUEL_UNIT_MASTERS(state, masters) {
-    state.fuelUnitMasters = masters
-  },
-  CACHE_DISTANCE_UNIT_MASTERS(state, masters) {
-    state.distanceUnitMasters = masters
-  },
-  CACHE_FUEL_TYPE_MASTERS(state, masters) {
-    state.fuelTypeMasters = masters
-  },
-  CACHE_CURRENCY_MASTERS(state, masters) {
-    state.currencyMasters = masters
-  },
   CACHE_QUICK_ENTRIES(state, entries) {
     state.quickEntries = entries
-  },
-  CACHE_ROLE_MASTERS(state, roles) {
-    state.roleMasters = roles
   },
 }
 
@@ -54,21 +34,8 @@ export const actions = {
     const { currentUser } = rootState.auth
     if (currentUser) {
       dispatch('fetchVehicles')
-      dispatch('fetchMasters')
       dispatch('fetchQuickEntries', { force: true })
     }
-  },
-  fetchMasters({ commit, state, rootState }) {
-    return axios.get('/api/masters').then((response) => {
-      const fuelUnitMasters = response.data.fuelUnits
-      const fuelTypeMasters = response.data.fuelTypes
-      commit('CACHE_FUEL_UNIT_MASTERS', fuelUnitMasters)
-      commit('CACHE_FUEL_TYPE_MASTERS', fuelTypeMasters)
-      commit('CACHE_CURRENCY_MASTERS', response.data.currencies)
-      commit('CACHE_DISTANCE_UNIT_MASTERS', response.data.distanceUnits)
-      commit('CACHE_ROLE_MASTERS', response.data.roles)
-      return response.data
-    })
   },
   fetchVehicles({ commit, state, rootState }) {
     return axios.get('/api/me/vehicles').then((response) => {

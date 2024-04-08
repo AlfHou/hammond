@@ -22,11 +22,13 @@ export default {
   data: function() {
     return {
       settingsModel: {
+        language: this.me.language,
         currency: this.me.currency,
         distanceUnit: this.me.distanceUnit,
         dateFormat: this.me.dateFormat,
       },
       tryingToSave: false,
+      selectedLanguage: "",
       changePassModel: {
         old: '',
         new: '',
@@ -36,7 +38,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('vehicles', ['currencyMasters', 'distanceUnitMasters']),
+    ...mapState('masters', ['currencyMasters', 'languageMasters', 'distanceUnitMasters']),
     passwordValid() {
       if (this.changePassModel.new === '' || this.changePassModel.renew === '') {
         return true
@@ -58,6 +60,9 @@ export default {
         )
       })
     },
+  },
+  mounted() {
+    this.selectedLanguage = this.formatLanguage(this.languageMasters.filter(x => x.shorthand === this.me.language)[0])
   },
   methods: {
     changePassword() {
@@ -110,6 +115,7 @@ export default {
             type: 'is-success',
             duration: 3000,
           })
+          this.$i18n.locale = this.settingsModel.language
         })
         .catch((ex) => {
           this.$buefy.toast.open({
@@ -126,6 +132,9 @@ export default {
     formatCurrency(option) {
       return `${option.namePlural} (${option.code})`
     },
+    formatLanguage(option) {
+      return `${option.nameNative} ${option.emoji}`
+    },
   },
 }
 </script>
@@ -136,9 +145,18 @@ export default {
     <div class="columns"
       ><div class="column">
         <form class="box " @submit.prevent="saveSettings">
-          <h1 class="subtitle">
-            {{ $t('settingdesc') }}
-          </h1>
+          <b-field :label="$t('language')">
+          <b-autocomplete 
+            v-model="selectedLanguage"
+            :placeholder="$t('language')"
+            :keep-first="true"
+            :custom-formatter="formatLanguage"
+            :data="languageMasters"
+            :open-on-focus="true"
+            required
+            @select="(option) => (settingsModel.language = option.shorthand)"
+          />
+            </b-field>
           <b-field :label="$t('currency')">
             <b-autocomplete
               v-model="settingsModel.currency"
