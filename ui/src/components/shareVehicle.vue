@@ -1,5 +1,5 @@
 <script>
-import store from '@state/store'
+import store from '@/state/store'
 import { sortBy } from 'lodash'
 import axios from 'axios'
 

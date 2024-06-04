@@ -17,7 +17,7 @@ const mountBaseLink = (options = {}) => {
   })
 }
 
-describe('@components/_base-link', () => {
+describe('@/components/_base-link', () => {
   const originalConsoleWarn = global.console.warn
   let warning
   beforeEach(() => {

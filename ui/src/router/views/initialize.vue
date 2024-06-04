@@ -1,8 +1,8 @@
 <script>
-import Layout from '@layouts/main.vue'
+import Layout from '@/router/layouts/main.vue'
 import axios from 'axios'
 import { mapGetters, mapState } from 'vuex'
-import store from '@state/store'
+import store from '@/state/store'
 
 export default {
   components: { Layout },

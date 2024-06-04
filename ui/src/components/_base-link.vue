@@ -39,7 +39,7 @@ export default {
     // Perform more complex prop validations than is possible
     // inside individual validator functions for each prop.
     validateProps() {
-      if (process.env.NODE_ENV === 'production') return
+      if (import.meta.env.MODE === 'production') return
 
       if (this.href) {
         // Check for non-external URL in href.

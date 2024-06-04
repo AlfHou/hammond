@@ -26,7 +26,7 @@ const mountRoutes = (options) => {
   )
 }
 
-describe('@components/nav-bar-routes', () => {
+describe('@/components/nav-bar-routes', () => {
   it('correctly renders routes with text titles', () => {
     const { element } = mountRoutes({
       propsData: {

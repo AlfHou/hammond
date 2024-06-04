@@ -1,6 +1,6 @@
 <script>
-import appConfig from '@src/app.config'
-import store from '@state/store'
+import appConfig from '@/app.config'
+import store from '@/state/store'
 
 export default {
   page: {

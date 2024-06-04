@@ -1,5 +1,5 @@
-import allModules from '@state/modules'
-import store from '@state/store'
+import allModules from '@/state/modules'
+import store from '@/state/store'
 
 export default function dispatchActionForAllModules(
   actionName,

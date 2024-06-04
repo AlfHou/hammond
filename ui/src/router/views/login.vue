@@ -1,8 +1,8 @@
 <script>
-import Layout from '@layouts/main.vue'
-import { authMethods } from '@state/helpers'
-import appConfig from '@src/app.config'
-import store from '@state/store'
+import Layout from '@/router/layouts/main.vue'
+import { authMethods } from '@/state/helpers'
+import appConfig from '@/app.config'
+import store from '@/state/store'
 
 export default {
   page: {
@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     placeholders() {
-      return process.env.NODE_ENV === 'production'
+      return import.meta.env.MODE === 'production'
         ? {}
         : {
             username: this.$t('enterusername'),
@@ -30,7 +30,7 @@ export default {
     },
   },
   mounted() {
-    // console.log(process.env.API_BASE_URL)
+    // console.log(import.meta.env.API_BASE_URL)
   },
   methods: {
     ...authMethods,

@@ -1,10 +1,11 @@
 <script>
-import { authComputed } from '@state/helpers'
+import { authComputed } from '@/state/helpers'
 import { mapGetters } from 'vuex'
 import NavBarRoutes from './nav-bar-routes.vue'
+import BaseLink from './_base-link.vue'
 
 export default {
-  components: { NavBarRoutes },
+  components: { NavBarRoutes, BaseLink },
   data() {
     return {
       persistentNavRoutes: [
@@ -69,11 +70,15 @@ export default {
         </b-navbar-item>
       </template>
       <template v-slot:end>
-        <NavBarRoutes :routes="persistentNavRoutes" />
-        <NavBarRoutes v-if="loggedIn" :routes="loggedInNavRoutes" />
-        <NavBarRoutes v-else :routes="loggedOutNavRoutes" />
+        <NavBarRoutes v-for="(route, index) in persistentNavRoutes" :route="route" :key="route.name + index" />
+        <template v-if="loggedIn">
+          <NavBarRoutes :routes="loggedInNavRoutes" />
+        </template>
+        <template v-else>
+          <NavBarRoutes v-for="(route, index) in loggedOutNavRoutes" :route="route" :key="route.name + index" />
+        </template>
         <b-navbar-dropdown v-if="loggedIn && isAdmin" :label="$t('menu.admin')">
-          <NavBarRoutes :routes="adminNavRoutes" />
+          <NavBarRoutes v-for="(route, index) in adminNavRoutes" :route="route" :key="route.name + index" />
         </b-navbar-dropdown>
       </template>
     </b-navbar>

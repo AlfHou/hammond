@@ -1,7 +1,7 @@
 <script>
-import Layout from '@layouts/main.vue'
-import { parseAndFormatDateTime } from '@utils/format-date'
-import store from '@state/store'
+import Layout from '@/router/layouts/main.vue'
+import { parseAndFormatDateTime } from '@/utils/format-date'
+import store from '@/state/store'
 import { chunk, filter } from 'lodash'
 import { mapState, mapGetters } from 'vuex'
 // import axios from 'axios'

@@ -1,6 +1,6 @@
 import BaseInputText from './_base-input-text.vue'
 
-describe('@components/_base-input-text', () => {
+describe('@/components/_base-input-text', () => {
   it('works with v-model', () => {
     const wrapper = mount(BaseInputText, { propsData: { value: 'aaa' } })
     const inputWrapper = wrapper.find('input')

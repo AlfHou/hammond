@@ -1,9 +1,9 @@
 <script>
-import Layout from '@layouts/main.vue'
-import QuickEntryDisplay from '@components/quickEntryDisplay.vue'
+import Layout from '@/router/layouts/main.vue'
+import QuickEntryDisplay from '@/components/quickEntryDisplay.vue'
 import { mapState } from 'vuex'
 import axios from 'axios'
-import store from '@state/store'
+import store from '@/state/store'
 import { format } from 'date-fns'
 
 export default {

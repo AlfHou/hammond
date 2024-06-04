@@ -1,4 +1,7 @@
-import store from '@state/store'
+import store from '@/state/store'
+import { useAuthStore } from '@/stores/auth'
+import { useUsersStore } from '@/stores/users'
+import { useVehiclesStore } from '@/stores/vehicles'
 
 export default [
   {
@@ -8,17 +11,15 @@ export default [
       authRequired: true,
       tmp: {},
       beforeResolve(routeTo, routeFrom, next) {
-        store
-          // Try to fetch the user's information by their username
-          .dispatch('vehicles/fetchVehicles')
+        const vehicles = useVehiclesStore()
+        const users = useUsersStore()
+        vehicles.fetchVehicles()
           .then((vehicles) => {
             // Add the user to `meta.tmp`, so that it can
             // be provided as a prop.
             routeTo.meta.tmp.vehicles = vehicles
 
-            store
-              // Try to fetch the user's information by their username
-              .dispatch('users/me')
+              users.me()
               .then((me) => {
                 next()
               })
@@ -32,22 +33,23 @@ export default [
           })
       },
     },
-    component: () => lazyLoadView(import('@views/home.vue')),
-    props: (route) => ({ user: store.state.auth.currentUser || {} }),
+    component: () => lazyLoadView(import('@/router/views/home.vue')),
+    props: (route) => ({ user: useAuthStore().currentUser || {} }),
   },
   {
     path: '/initialize',
     name: 'initialize',
-    component: () => lazyLoadView(import('@views/initialize.vue')),
+    component: () => lazyLoadView(import('@/router/views/initialize.vue')),
     meta: {
       beforeResolve(routeTo, routeFrom, next) {
         // If the user is already logged in
+        const auth = useAuthStore()
 
-        if (store.getters['auth/isInitialized']) {
+        if (auth.isInitialized) {
           next({ name: 'login' })
         }
 
-        if (store.getters['auth/loggedIn']) {
+        if (auth.currentUser) {
           // Redirect to the home page instead
           next({ name: 'home' })
         } else {
@@ -60,7 +62,7 @@ export default [
   {
     path: '/login',
     name: 'login',
-    component: () => lazyLoadView(import('@views/login.vue')),
+    component: () => lazyLoadView(import('@/router/views/login.vue')),
     meta: {
       beforeResolve(routeTo, routeFrom, next) {
         // If the user is already logged in
@@ -84,7 +86,7 @@ export default [
   {
     path: '/profile',
     name: 'profile',
-    component: () => lazyLoadView(import('@views/profile.vue')),
+    component: () => lazyLoadView(import('@/router/views/profile.vue')),
     meta: {
       authRequired: true,
       roles: ['ADMIN'],
@@ -94,7 +96,7 @@ export default [
   {
     path: '/admin/settings',
     name: 'site-settings',
-    component: () => lazyLoadView(import('@/src/router/views/siteSettings.vue')),
+    component: () => lazyLoadView(import('@/router/views/siteSettings.vue')),
     meta: {
       authRequired: true,
       roles: ['ADMIN'],
@@ -107,7 +109,7 @@ export default [
   {
     path: '/admin/users',
     name: 'users',
-    component: () => lazyLoadView(import('@/src/router/views/users.vue')),
+    component: () => lazyLoadView(import('@/router/views/users.vue')),
     meta: {
       authRequired: true,
       roles: ['ADMIN'],
@@ -120,7 +122,7 @@ export default [
   {
     path: '/settings',
     name: 'settings',
-    component: () => lazyLoadView(import('@/src/router/views/settings.vue')),
+    component: () => lazyLoadView(import('@/router/views/settings.vue')),
     meta: {
       authRequired: true,
     },
@@ -132,7 +134,7 @@ export default [
   {
     path: '/profile/:username',
     name: 'username-profile',
-    component: () => lazyLoadView(import('@views/profile.vue')),
+    component: () => lazyLoadView(import('@/router/views/profile.vue')),
     meta: {
       authRequired: true,
       // HACK: In order to share data between the `beforeResolve` hook
@@ -165,7 +167,7 @@ export default [
   {
     path: '/vehicles/create',
     name: 'vehicle-create',
-    component: () => lazyLoadView(import('@views/createVehicle.vue')),
+    component: () => lazyLoadView(import('@/router/views/createVehicle.vue')),
     meta: {
       authRequired: true,
       // HACK: In order to share data between the `beforeResolve` hook
@@ -176,7 +178,7 @@ export default [
   {
     path: '/vehicles/:vehicleId',
     name: 'vehicle-detail',
-    component: () => lazyLoadView(import('@views/vehicle.vue')),
+    component: () => lazyLoadView(import('@/router/views/vehicle.vue')),
     meta: {
       authRequired: true,
       // HACK: In order to share data between the `beforeResolve` hook
@@ -210,7 +212,7 @@ export default [
   {
     path: '/vehicles/:vehicleId/edit',
     name: 'vehicle-edit',
-    component: () => lazyLoadView(import('@views/createVehicle.vue')),
+    component: () => lazyLoadView(import('@/router/views/createVehicle.vue')),
     meta: {
       authRequired: true,
       // HACK: In order to share data between the `beforeResolve` hook
@@ -244,7 +246,7 @@ export default [
   {
     path: '/vehicles/:vehicleId/fillup',
     name: 'vehicle-create-fillup',
-    component: () => lazyLoadView(import('@views/createFillup.vue')),
+    component: () => lazyLoadView(import('@/router/views/createFillup.vue')),
     meta: {
       authRequired: true,
       // HACK: In order to share data between the `beforeResolve` hook
@@ -278,7 +280,7 @@ export default [
   {
     path: '/vehicles/:vehicleId/fillup/:fillupId/edit',
     name: 'vehicle-edit-fillup',
-    component: () => lazyLoadView(import('@views/createFillup.vue')),
+    component: () => lazyLoadView(import('@/router/views/createFillup.vue')),
     meta: {
       authRequired: true,
 
@@ -315,7 +317,7 @@ export default [
   {
     path: '/vehicles/:vehicleId/expense',
     name: 'vehicle-create-expense',
-    component: () => lazyLoadView(import('@views/createExpense.vue')),
+    component: () => lazyLoadView(import('@/router/views/createExpense.vue')),
     meta: {
       authRequired: true,
       // HACK: In order to share data between the `beforeResolve` hook
@@ -349,7 +351,7 @@ export default [
   {
     path: '/vehicles/:vehicleId/expense/:expenseId/edit',
     name: 'vehicle-edit-expense',
-    component: () => lazyLoadView(import('@views/createExpense.vue')),
+    component: () => lazyLoadView(import('@/router/views/createExpense.vue')),
     meta: {
       authRequired: true,
 
@@ -386,7 +388,7 @@ export default [
   {
     path: '/quickEntries',
     name: 'quickEntries',
-    component: () => lazyLoadView(import('@views/quickEntries.vue')),
+    component: () => lazyLoadView(import('@/router/views/quickEntries.vue')),
     meta: {
       authRequired: true,
     },
@@ -395,7 +397,7 @@ export default [
   {
     path: '/import',
     name: 'import',
-    component: () => lazyLoadView(import('@views/import.vue')),
+    component: () => lazyLoadView(import('@/router/views/import.vue')),
     meta: {
       authRequired: true,
     },
@@ -404,7 +406,7 @@ export default [
   {
     path: '/import/fuelly',
     name: 'import-fuelly',
-    component: () => lazyLoadView(import('@views/import-fuelly.vue')),
+    component: () => lazyLoadView(import('@/router/views/import-fuelly.vue')),
     meta: {
       authRequired: true,
     },
@@ -413,7 +415,7 @@ export default [
   {
     path: '/import/drivvo',
     name: 'import-drivvo',
-    component: () => lazyLoadView(import('@views/import-drivvo.vue')),
+    component: () => lazyLoadView(import('@/router/views/import-drivvo.vue')),
     meta: {
       authRequired: true,
     },
@@ -422,7 +424,7 @@ export default [
   {
     path: '/import/generic',
     name: 'import-generic',
-    component: () => lazyLoadView(import('@views/import-generic.vue')),
+    component: () => lazyLoadView(import('@/router/views/import-generic.vue')),
     meta: {
       authRequired: true,
     },
@@ -445,7 +447,7 @@ export default [
   {
     path: '/404',
     name: '404',
-    component: require('@views/_404.vue').default,
+    component: import('@/router/views/_404.vue').default,
     // Allows props to be passed to the 404 page through route
     // params, such as `resource` to define what wasn't found.
     props: true,
@@ -464,26 +466,26 @@ export default [
 // back to a timeout view in case the page fails to load. You can
 // use this component to lazy-load a route with:
 //
-// component: () => lazyLoadView(import('@views/my-view'))
+// component: () => lazyLoadView(import('@/router/views/my-view'))
 //
 // NOTE: Components loaded with this strategy DO NOT have access
 // to in-component guards, such as beforeRouteEnter,
 // beforeRouteUpdate, and beforeRouteLeave. You must either use
 // route-level guards instead or lazy-load the component directly:
 //
-// component: () => import('@views/my-view')
+// component: () => import('@/router/views/my-view')
 //
 function lazyLoadView(AsyncView) {
   const AsyncHandler = () => ({
     component: AsyncView,
     // A component to use while the component is loading.
-    loading: require('@views/_loading.vue').default,
+    loading: import('@/router/views/_loading.vue').default,
     // Delay before showing the loading component.
     // Default: 200 (milliseconds).
     delay: 400,
     // A fallback component in case the timeout is exceeded
     // when loading the component.
-    error: require('@views/_timeout.vue').default,
+    error: import('@/router/views/_timeout.vue').default,
     // Time before giving up trying to load the component.
     // Default: Infinity (milliseconds).
     timeout: 10000,

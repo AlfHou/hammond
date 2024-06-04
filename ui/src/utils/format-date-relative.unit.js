@@ -1,6 +1,6 @@
 import formatDateRelative from './format-date-relative'
 
-describe('@utils/format-date-relative', () => {
+describe('@/utils/format-date-relative', () => {
   it('correctly compares dates years apart', () => {
     const fromDate = new Date(2002, 5, 1)
     const toDate = new Date(2017, 4, 10)

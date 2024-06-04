@@ -1,13 +1,13 @@
 <script>
-import Layout from '@layouts/main.vue'
-import { parseAndFormatDate } from '@utils/format-date'
+import Layout from '@/router/layouts/main.vue'
+import { parseAndFormatDate } from '@/utils/format-date'
 import { mapState } from 'vuex'
 import { addDays, addMonths } from 'date-fns'
 import axios from 'axios'
 import currencyFormatter from 'currency-formatter'
-import store from '@state/store'
-import ShareVehicle from '@components/shareVehicle.vue'
-import MileageChart from '@components/mileageChart.vue'
+import store from '@/state/store'
+import ShareVehicle from '@/components/shareVehicle.vue'
+import MileageChart from '@/components/mileageChart.vue'
 
 export default {
   page() {

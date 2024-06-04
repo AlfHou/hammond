@@ -1,7 +1,7 @@
 <script>
-import Layout from '@layouts/main.vue'
-import QuickEntryDisplay from '@components/quickEntryDisplay.vue'
-import store from '@state/store'
+import Layout from '@/router/layouts/main.vue'
+import QuickEntryDisplay from '@/components/quickEntryDisplay.vue'
+import store from '@/state/store'
 
 import { mapState } from 'vuex'
 import axios from 'axios'

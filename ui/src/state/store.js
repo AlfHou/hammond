@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import dispatchActionForAllModules from '@utils/dispatch-action-for-all-modules'
+import dispatchActionForAllModules from '@/utils/dispatch-action-for-all-modules'
 
 import modules from './modules'
 
@@ -11,7 +11,7 @@ const store = new Vuex.Store({
   // Enable strict mode in development to get a warning
   // when mutating state outside of a mutation.
   // https://vuex.vuejs.org/guide/strict.html
-  strict: process.env.NODE_ENV !== 'production',
+  strict: import.meta.env.MODE !== 'production',
 })
 
 export default store

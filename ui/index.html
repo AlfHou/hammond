@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <link rel="shortcut icon" href="<%= webpackConfig.output.publicPath %>hammond.png" />
-    <link rel="apple-touch-icon" href="<%= webpackConfig.output.publicPath %>touch-icon.png" />
-    <title><%= webpackConfig.name %></title>
+    <link rel="shortcut icon" href="/hammond.png" />
+    <link rel="apple-touch-icon" href="/touch-icon.png" />
+    <title>Hammond</title>
     <!-- Temporary until fontawesome 6 is supported in buefy (see issue: https://github.com/FortAwesome/Font-Awesome/issues/18663) -->
     <style>
       .icon svg { width: 1em; height: 1em; max-width: 80%; max-height: 80%; }
@@ -14,7 +14,9 @@
   </head>
   <body>
     <!-- This is where our app will be mounted. -->
-    <div id="app"></div>
+    <div id="app">
+      <script type="module" src="/src/main.js"></script>
+    </div>
 
     <!-- Built files will be auto injected here. -->
   </body>

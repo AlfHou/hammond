@@ -1,6 +1,6 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { parseAndFormatDateTime } from '@utils/format-date'
+import { parseAndFormatDateTime } from '@/utils/format-date'
 
 export default {
   model: {

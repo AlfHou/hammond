@@ -1,6 +1,6 @@
 <script>
 import { mapState } from 'vuex'
-import store from '@state/store'
+import store from '@/state/store'
 import axios from 'axios'
 export default {
   data: function() {

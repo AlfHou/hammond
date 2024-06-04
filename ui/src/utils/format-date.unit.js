@@ -1,6 +1,6 @@
 import formatDate from './format-date'
 
-describe('@utils/format-date', () => {
+describe('@/utils/format-date', () => {
   it('correctly compares dates years apart', () => {
     const date = new Date(2002, 5, 1)
     const formattedDate = formatDate(date)

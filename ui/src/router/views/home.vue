@@ -1,14 +1,14 @@
 <script>
 import currencyFormatter from 'currency-formatter'
 
-import appConfig from '@src/app.config'
-import Layout from '@layouts/main.vue'
-import CreateQuickEntry from '@components/createQuickEntry.vue'
-import StatsWidget from '@components/statsWidget.vue'
+import appConfig from '@/app.config'
+import Layout from '@/router/layouts/main.vue'
+import CreateQuickEntry from '@/components/createQuickEntry.vue'
+import StatsWidget from '@/components/statsWidget.vue'
 import { chunk } from 'lodash'
 
-import { parseAndFormatDate } from '@utils/format-date'
-// import store from '@state/store'
+import { parseAndFormatDate } from '@/utils/format-date'
+// import store from '@/state/store'
 import { mapGetters, mapState } from 'vuex'
 
 export default {

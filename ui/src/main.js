@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Buefy from 'buefy'
-import router from '@router'
-import store from '@state/store'
+import router from '@/router'
+import store from '@/state/store'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faCheck,
@@ -30,7 +30,7 @@ import i18n from './i18n';
 import App from './app.vue'
 
 // Globally register all `_base`-prefixed components
-import '@components/_globals'
+import '@/components/_globals'
 
 import 'buefy/dist/buefy.css'
 import 'nprogress/nprogress.css'
@@ -64,13 +64,15 @@ Vue.use(Buefy, {
 })
 
 // Don't warn about using the dev version of Vue in development.
-Vue.config.productionTip = process.env.NODE_ENV === 'production'
+Vue.config.productionTip = import.meta.env.MODE === 'production'
 
 // If running inside Cypress...
-if (process.env.VUE_APP_TEST === 'e2e') {
+if (import.meta.env.VUE_APP_TEST === 'e2e') {
   // Ensure tests fail when Vue emits an error.
   Vue.config.errorHandler = window.Cypress.cy.onUncaughtException
 }
+
+Vue.use(i18n)
 
 const app = new Vue({
   router,
@@ -81,7 +83,7 @@ const app = new Vue({
 }).$mount('#app')
 
 // If running e2e tests...
-if (process.env.VUE_APP_TEST === 'e2e') {
+if (import.meta.env.VUE_APP_TEST === 'e2e') {
   // Attach the app to the window, which can be useful
   // for manually setting state in Cypress commands
   // such as `cy.logIn()`.

@@ -1,10 +1,10 @@
-describe('@utils/dispatch-action-for-all-modules', () => {
+describe('@/utils/dispatch-action-for-all-modules', () => {
   beforeEach(() => {
     jest.resetModules()
   })
 
   it('dispatches actions from NOT namespaced modules', () => {
-    jest.doMock('@state/modules', () => ({
+    jest.doMock('@/state/modules', () => ({
       moduleA: {
         actions: {
           someAction: jest.fn(),
@@ -21,7 +21,7 @@ describe('@utils/dispatch-action-for-all-modules', () => {
 
     require('./dispatch-action-for-all-modules').default('someAction')
 
-    const { moduleA, moduleB } = require('@state/modules')
+    const { moduleA, moduleB } = require('@/state/modules')
     expect(moduleA.actions.someAction).toHaveBeenCalledTimes(1)
     expect(moduleB.actions.someAction).toHaveBeenCalledTimes(1)
     expect(moduleA.actions.otherAction).not.toHaveBeenCalled()
@@ -29,7 +29,7 @@ describe('@utils/dispatch-action-for-all-modules', () => {
   })
 
   it('dispatches actions from namespaced modules', () => {
-    jest.doMock('@state/modules', () => ({
+    jest.doMock('@/state/modules', () => ({
       moduleA: {
         namespaced: true,
         actions: {
@@ -48,7 +48,7 @@ describe('@utils/dispatch-action-for-all-modules', () => {
 
     require('./dispatch-action-for-all-modules').default('someAction')
 
-    const { moduleA, moduleB } = require('@state/modules')
+    const { moduleA, moduleB } = require('@/state/modules')
     expect(moduleA.actions.someAction).toHaveBeenCalledTimes(1)
     expect(moduleB.actions.someAction).toHaveBeenCalledTimes(1)
     expect(moduleA.actions.otherAction).not.toHaveBeenCalled()
@@ -56,7 +56,7 @@ describe('@utils/dispatch-action-for-all-modules', () => {
   })
 
   it('dispatches actions from deeply nested NOT namespaced modules', () => {
-    jest.doMock('@state/modules', () => ({
+    jest.doMock('@/state/modules', () => ({
       moduleA: {
         actions: {
           someAction: jest.fn(),
@@ -83,7 +83,7 @@ describe('@utils/dispatch-action-for-all-modules', () => {
 
     require('./dispatch-action-for-all-modules').default('someAction')
 
-    const { moduleA } = require('@state/modules')
+    const { moduleA } = require('@/state/modules')
     const { moduleB } = moduleA.modules
     const { moduleC } = moduleB.modules
     expect(moduleA.actions.someAction).toHaveBeenCalledTimes(1)
@@ -95,7 +95,7 @@ describe('@utils/dispatch-action-for-all-modules', () => {
   })
 
   it('dispatches actions from deeply nested namespaced modules', () => {
-    jest.doMock('@state/modules', () => ({
+    jest.doMock('@/state/modules', () => ({
       moduleA: {
         namespaced: true,
         actions: {
@@ -125,7 +125,7 @@ describe('@utils/dispatch-action-for-all-modules', () => {
 
     require('./dispatch-action-for-all-modules').default('someAction')
 
-    const { moduleA } = require('@state/modules')
+    const { moduleA } = require('@/state/modules')
     const { moduleB } = moduleA.modules
     const { moduleC } = moduleB.modules
     expect(moduleA.actions.someAction).toHaveBeenCalledTimes(1)
