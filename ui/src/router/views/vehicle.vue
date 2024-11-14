@@ -8,6 +8,7 @@ import currencyFormatter from 'currency-formatter'
 import store from '@state/store'
 import ShareVehicle from '@components/shareVehicle.vue'
 import MileageChart from '@components/mileageChart.vue'
+import MileageTable from '@components/mileageTable.vue'
 
 export default {
   page() {
@@ -21,7 +22,7 @@ export default {
       ],
     }
   },
-  components: { Layout, MileageChart },
+  components: { Layout, MileageChart, MileageTable },
   props: {
     vehicle: {
       type: Object,
@@ -541,8 +542,8 @@ export default {
     <div class="box">
       <div class="columns">
         <div class="column" :class="isMobile ? 'has-text-centered' : ''">
-          <h1 class="title">{{ $t('statistics') }}</h1></div
-        >
+          <h1 class="title">{{ $t('statistics') }}</h1>
+        </div>
         <div class="column">
           <div class="columns is-pulled-right is-medium">
             <div class="column">
@@ -562,7 +563,12 @@ export default {
           </div>
         </div>
       </div>
-      <MileageChart :vehicle="vehicle" :since="getStartDate()" :user="me" :height="300" :mileage-option="mileageOption" />
+      <div v-if="isMobile">
+        <MileageTable :vehicle="vehicle" :since="getStartDate()" :user="me" :height="300" :mileage-option="mileageOption" />
+      </div>
+      <div v-else>
+        <MileageChart :vehicle="vehicle" :since="getStartDate()" :user="me" :height="300" :mileage-option="mileageOption" />
+      </div>
     </div>
   </Layout>
 </template>
